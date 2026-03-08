@@ -1,11 +1,14 @@
 sentence-transformers==2.2.2
 langchain
+langchain-community
+langchain-openai
+langchain-experimental
+langchain-pinecone
+langchain-huggingface
+langchain_text_splitters
+pinecone[grpc]
 flask
 pypdf
 python-dotenv
-pinecone[grpc]
-langchain-pinecone
-langchain_community
-langchain_openai
-langchain_experimental
+sentence-transformers
 -e .

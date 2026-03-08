@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>Medical AI</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+
+</head>
+
+<body>
+
+    <div class="container">
+
+        <div class="chat-card">
+
+            <div class="header">
+
+                <div class="logo">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="white">
+                        <path
+                            d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8V22h19.2v-2.8c0-3.2-6.4-4.8-9.6-4.8z" />
+                    </svg>
+
+                </div>
+
+                <div>
+                    <h2>FlowSync AI Health Assistant</h2>
+                    <p>Your AI guide for women's health, cycles, hormones, and wellness.</p>
+                </div>
+
+            </div>
+
+            <div id="chat-box" class="chat-box"></div>
+
+            <div class="input-area">
+
+                <input id="message" placeholder="Ask about PCOS, cycles, hormones, symptoms..." />
+
+                <button onclick="sendMessage()">Send</button>
+
+            </div>
+
+        </div>
+
+    </div>
+    <script>
+
+        function sendMessage() {
+
+            let input = document.getElementById("message")
+            let message = input.value
+
+            if (message === "") return
+
+            let chatBox = document.getElementById("chat-box")
+
+            // show user message
+            chatBox.innerHTML += `<div class="user-msg">${message}</div>`
+
+            // thinking animation
+            let thinkingId = "thinking-" + Date.now()
+
+            chatBox.innerHTML += `
+<div class="bot-msg thinking" id="${thinkingId}">
+<span></span><span></span><span></span>
+</div>
+`
+
+            chatBox.scrollTop = chatBox.scrollHeight
+
+            fetch("/get", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/x-www-form-urlencoded"
+                },
+                body: "msg=" + message
+            })
+                .then(res => res.text())
+                .then(data => {
+
+                    let thinkingBubble = document.getElementById(thinkingId)
+
+                    thinkingBubble.classList.remove('thinking')
+                    thinkingBubble.innerHTML = `<span class="typing"></span>`
+
+                    typeWriter(thinkingBubble.querySelector(".typing"), data)
+
+                })
+
+            input.value = ""
+
+        }
+
+        function typeWriter(element, text, speed = 20) {
+
+            let i = 0;
+            element.innerHTML = "";
+
+            function typing() {
+
+                if (i < text.length) {
+                    element.textContent += text.charAt(i);
+                    i++;
+                    setTimeout(typing, speed);
+                } else {
+                    element.classList.remove('typing');
+                }
+
+            }
+
+            typing();
+
+        }
+
+    </script>
+
+</body>
+
+</html>

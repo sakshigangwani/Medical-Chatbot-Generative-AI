@@ -1,0 +1,211 @@
+body{
+
+margin:0;
+font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Roboto;
+background:#F9FAFB;
+height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+
+}
+
+.container{
+
+width:100%;
+display:flex;
+justify-content:center;
+
+}
+
+.chat-card{
+
+width:700px;
+height:80vh;
+background:#F9FAFB;
+border-radius:20px;
+display:flex;
+flex-direction:column;
+box-shadow:0 10px 30px rgba(0,0,0,0.5);
+
+}
+
+.header{
+
+display:flex;
+align-items:center;
+gap:15px;
+padding:20px;
+border-bottom:1px solid #1f2937;
+
+
+}
+.logo{
+
+width:70px;
+height:70px;
+background:#FF4D6D;   /* FlowSync Pink */
+display:flex;
+justify-content:center;
+align-items:center;
+border-radius:50%;
+font-size:22px;
+
+}
+
+.header h2{
+
+color:#1A3263;
+margin:0;
+font-size:24px;
+
+}
+
+.header p{
+
+color:#4b5563;
+margin:0;
+font-size:13px;
+
+}
+
+.chat-box{
+
+flex:1;
+padding:25px;
+overflow-y:auto;
+scroll-behavior:smooth;
+
+}
+
+.user-msg{
+
+background:#FF4D6D;
+color:white;
+padding:14px 18px;
+border-radius:16px;
+margin-bottom:14px;
+
+max-width:70%;
+margin-left:auto;
+width:fit-content;
+
+word-wrap:break-word;
+line-height:1.6;
+font-size:14px;
+
+}
+
+.bot-msg{
+
+background:#1f2937;
+color:white;
+padding:14px 18px;
+border-radius:16px;
+margin-bottom:14px;
+
+max-width:70%;
+width:fit-content;
+
+word-wrap:break-word;
+line-height:1.6;
+font-size:14px;
+
+}
+
+.input-area{
+
+display:flex;
+padding:15px;
+border-top:1px solid #1f2937;
+
+}
+
+.input-area input{
+
+flex:1;
+padding:12px;
+border:1px solid #1f2937;
+border-radius:10px;
+background:#ffffff;
+color:#1f2937;
+font-size:14px;
+
+}
+
+.input-area input::placeholder{
+color:#6b7280;
+}
+
+.input-area input:focus{
+outline:none;
+box-shadow:0 0 0 2px #FF4D6D;
+}
+
+.input-area button{
+
+margin-left:10px;
+padding:12px 18px;
+border:none;
+border-radius:10px;
+background:#FF4D6D;
+color:white;
+font-weight:600;
+cursor:pointer;
+transition:0.2s;
+
+}
+
+.input-area button:hover{
+
+background:#F43F5E;
+
+}
+
+/* THINKING ANIMATION */
+
+.thinking span{
+
+height:8px;
+width:8px;
+background:#FF4D6D;
+border-radius:50%;
+display:inline-block;
+margin-right:4px;
+animation: blink 1.4s infinite;
+
+}
+
+.thinking span:nth-child(2){
+
+animation-delay:0.2s;
+
+}
+
+.thinking span:nth-child(3){
+
+animation-delay:0.4s;
+
+}
+
+@keyframes blink{
+
+0%{opacity:0.2}
+20%{opacity:1}
+100%{opacity:0.2}
+
+}
+
+/* TYPING CURSOR */
+
+.typing{
+display:inline-block;
+border-right:2px solid #FF4D6D;
+animation:cursor 1s infinite;
+}
+
+@keyframes cursor{
+0%{border-color:transparent}
+50%{border-color:#FF4D6D}
+100%{border-color:transparent}
+}
