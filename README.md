@@ -1,68 +1,113 @@
 # 🩺 FlowSync AI Health Assistant
 
-Multi-agent AI health assistant for women’s health support using Retrieval-Augmented Generation (RAG).
+### Multi-Agent AI Health Assistant for Women's Health Support using Retrieval-Augmented Generation (RAG)
 
-## Overview
+FlowSync AI Health Assistant is a **multi-agent conversational AI system** designed to provide guidance on women's health topics such as hormonal health, symptoms, wellness, and general medical knowledge.
 
-FlowSync AI Health Assistant routes each user query to the most suitable specialist agent:
+The assistant combines **specialized AI agents** with **Retrieval-Augmented Generation (RAG)** to provide grounded, contextual responses using medical knowledge sources.
 
-- `MedicalAgent` for medical concepts, conditions, and explanations
-- `SymptomAgent` for symptom interpretation and next-step guidance
-- `LifestyleAgent` for wellness, nutrition, sleep, stress, and habits
-
-The system combines:
+The system integrates:
 
 - OpenAI LLM responses
-- Pinecone vector retrieval
+- Pinecone vector database
 - HuggingFace embeddings
-- Flask web app + chat UI
+- Flask backend
+- Chat-based web interface
 
 ---
 
-## Key Features
+# 📌 Overview
 
-- Multi-agent architecture with intelligent routing
-- RAG-backed responses grounded in uploaded health documents
-- Dedicated API endpoints for chat and system checks
-- Clean UI with response formatting and typing animation
-- Modular, testable Python codebase
+The system intelligently routes each user query to the most suitable **specialist AI agent**.
 
----
+### Agents
 
-## Architecture
+| Agent | Responsibility |
+|------|------|
+| **MedicalAgent** | Explains medical conditions, concepts, and treatments |
+| **SymptomAgent** | Interprets symptoms and suggests possible next steps |
+| **LifestyleAgent** | Provides guidance on wellness, nutrition, sleep, stress, and habits |
 
-User Query → `QuestionRouter` → Specialist Agent → Retriever (Pinecone) → LLM Response → UI/API
-
-Core modules:
-
-- `agents/` — agent implementations
-- `orchestrator/router.py` — routing logic
-- `retrieval/retriever.py` — retriever setup/invocation
-- `app.py` — Flask app and endpoints
-- `store_index.py` — vector indexing pipeline
+Each agent can retrieve contextual information from the **vector database** to generate accurate responses.
 
 ---
 
-## Project Structure
+# 🚀 Key Features
+
+- Multi-agent AI architecture
+- Intelligent query routing
+- Retrieval-Augmented Generation (RAG)
+- Pinecone vector database integration
+- Document-based medical knowledge
+- Real-time conversational chat UI
+- Typing animation for AI responses
+- Thinking animation during retrieval
+- Modular and scalable Python codebase
+- REST API endpoints for chat and system checks
+
+---
+
+# 🧠 System Architecture
+
+```
+User Query
+    │
+    ▼
+Question Router
+    │
+    ▼
+Specialist Agent
+    │
+    ▼
+Retriever (Pinecone)
+    │
+    ▼
+LLM Response
+    │
+    ▼
+Chat UI / API
+```
+
+### Core Modules
+
+| Module | Description |
+|------|------|
+| `agents/` | Specialized AI agents |
+| `orchestrator/router.py` | Agent routing logic |
+| `retrieval/retriever.py` | Pinecone retriever setup |
+| `app.py` | Flask backend API |
+| `store_index.py` | Document embedding pipeline |
+
+---
+
+# 📂 Project Structure
 
 ```text
 flowsync-ai-health-assistant/
+│
 ├── agents/
 │   ├── medical_agent.py
 │   ├── symptom_agent.py
 │   └── lifestyle_agent.py
+│
 ├── orchestrator/
 │   └── router.py
+│
 ├── retrieval/
 │   └── retriever.py
+│
 ├── src/
 │   ├── helper.py
 │   └── prompt.py
+│
 ├── templates/
 │   └── chat.html
+│
 ├── static/
 │   └── styles.css
+│
 ├── Data/
+│
 ├── app.py
 ├── store_index.py
 ├── check_setup.py
@@ -75,38 +120,52 @@ flowsync-ai-health-assistant/
 
 ---
 
-## Setup
+# ⚙️ Setup
 
-### 1) Clone
+## 1. Clone the Repository
 
 ```bash
 git clone https://github.com/sakshigangwani/flowsync-ai-health-assistant.git
 cd flowsync-ai-health-assistant
 ```
 
-### 2) Create environment
+---
+
+## 2. Create Virtual Environment
 
 ```bash
 python -m venv .venv
 source .venv/bin/activate
 ```
 
-### 3) Install dependencies
+For Windows:
+
+```bash
+.venv\Scripts\activate
+```
+
+---
+
+## 3. Install Dependencies
 
 ```bash
 pip install -r requirements.txt
 ```
 
-### 4) Add environment variables
+---
 
-Create `.env` in the project root:
+## 4. Environment Variables
+
+Create a `.env` file in the project root.
 
 ```env
 OPENAI_API_KEY=your_openai_api_key
 PINECONE_API_KEY=your_pinecone_api_key
 ```
 
-### 5) Verify setup
+---
+
+## 5. Verify Setup
 
 ```bash
 python check_setup.py
@@ -114,71 +173,155 @@ python check_setup.py
 
 ---
 
-## Run
+# ▶️ Running the Project
 
-### Build / refresh vector index
+## Step 1 — Build Vector Index
+
+Convert documents into embeddings and store them in Pinecone.
 
 ```bash
 python store_index.py
 ```
 
-### Start app
+This step:
+
+- Loads medical documents
+- Splits text into chunks
+- Generates embeddings
+- Stores vectors in Pinecone
+
+---
+
+## Step 2 — Start the Application
 
 ```bash
 python app.py
 ```
 
-Open: http://127.0.0.1:8080
+Open your browser:
+
+```
+http://127.0.0.1:8080
+```
 
 ---
 
-## API
+# 💬 Chat Interface
 
-### Chat
+The web interface includes:
 
-`POST /api/chat`
+- FlowSync AI health assistant chat
+- Typing animation for responses
+- Thinking animation while retrieving knowledge
+- Clean responsive UI
 
-Example request:
+Example questions:
+
+- What is PCOS?
+- Why are my periods irregular?
+- What causes hormonal acne?
+- What diet helps balance hormones?
+
+---
+
+# 🌐 API Endpoints
+
+## Chat
+
+**POST**
+
+```
+/api/chat
+```
+
+### Example Request
 
 ```json
 {
-	"message": "What is PCOS?"
+  "message": "What is PCOS?"
 }
 ```
 
-Example response:
+### Example Response
 
 ```json
 {
-	"answer": "...",
-	"agent_type": "medical",
-	"agent_name": "Medical Knowledge Agent"
+  "answer": "...",
+  "agent_type": "medical",
+  "agent_name": "Medical Knowledge Agent"
 }
 ```
 
-### Agent listing
+---
 
-`GET /api/agents`
+## List Agents
+
+**GET**
+
+```
+/api/agents
+```
+
+Returns available agents and descriptions.
 
 ---
 
-## Testing
+# 🧪 Testing
 
-- Quick smoke test: `python quick_test.py`
-- Agent-level tests: `python test_agents.py`
-- Example flows: `python examples.py`
+Run various tests to verify system behavior.
+
+### Quick Test
+
+```bash
+python quick_test.py
+```
+
+### Agent Tests
+
+```bash
+python test_agents.py
+```
+
+### Example Flows
+
+```bash
+python examples.py
+```
 
 ---
 
-## Notes
+# 🔮 Future Improvements
 
-- This assistant provides informational support only.
-- It is not a diagnosis tool and does not replace professional medical care.
-- In emergencies, contact local emergency services immediately.
+- Multi-document knowledge base
+- Conversation memory for personalized guidance
+- Voice-based health assistant
+- Advanced symptom analysis
+- Integration with FlowSync mobile app
+- Personalized health insights
 
 ---
 
-## Author
+# ⚠️ Disclaimer
 
-Sakshi Gangwani  
-MS Computer Science, University of Southern California
+This assistant provides **informational support only**.
+
+It **does not provide medical diagnosis or replace professional healthcare advice**.
+
+For medical emergencies, contact **qualified healthcare professionals or emergency services**.
+
+---
+
+# 👩‍💻 Author
+
+**Sakshi Gangwani**
+
+MS Computer Science  
+University of Southern California
+
+Focused on building **AI-powered health technology platforms**, including **FlowSync — a women's health management ecosystem.**
+
+---
+
+# ⭐ Support
+
+If you found this project useful, consider **starring the repository** to support further development.
