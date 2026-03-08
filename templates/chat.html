@@ -93,25 +93,58 @@
 
         }
 
-        function typeWriter(element, text, speed = 20) {
+        function formatResponse(text) {
+            // Convert numbered lists (1. 2. 3.)
+            text = text.replace(/(\d+)\.\s+([^\n]+)/g, '<li>$2</li>');
+            
+            // Convert bullet points (- or •)
+            text = text.replace(/^[-•]\s+([^\n]+)/gm, '<li>$1</li>');
+            
+            // Wrap consecutive list items in ul
+            text = text.replace(/(<li>.*<\/li>\s*)+/gs, '<ul>$&</ul>');
+            
+            // Convert **bold** to <strong>
+            text = text.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+            
+            // Convert paragraphs (double line breaks)
+            text = text.replace(/\n\n/g, '</p><p>');
+            
+            // Wrap in paragraph if not already in ul
+            if (!text.includes('<ul>')) {
+                text = '<p>' + text + '</p>';
+            } else {
+                // Add paragraphs around non-list content
+                text = text.replace(/^(?!<ul>|<\/ul>|<li>|<\/li>)(.+?)(?=<ul>|$)/gm, '<p>$1</p>');
+            }
+            
+            return text;
+        }
 
+        function typeWriter(element, text, speed = 5) {
+            // Format the text first
+            let formatted = formatResponse(text);
             let i = 0;
             element.innerHTML = "";
-
+            element.classList.add('typing');
+            
+            // Create a temporary div to get the plain text version for typing
+            let tempDiv = document.createElement('div');
+            tempDiv.innerHTML = formatted;
+            let plainText = tempDiv.textContent || tempDiv.innerText;
+            
             function typing() {
-
-                if (i < text.length) {
-                    element.textContent += text.charAt(i);
+                if (i < plainText.length) {
+                    element.textContent += plainText.charAt(i);
                     i++;
                     setTimeout(typing, speed);
                 } else {
+                    // Replace with formatted version
                     element.classList.remove('typing');
+                    element.innerHTML = formatted;
                 }
-
             }
-
+            
             typing();
-
         }
 
     </script>
